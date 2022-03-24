@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
 
-import '../../../data/models/tool_model.dart';
 import '../../entities/tool.dart';
 import '../../entities/user.dart';
 import '../../repositories/i_tool_repository.dart';
@@ -12,7 +11,7 @@ class GetToolsInToolRoomUseCase {
   final IUserRepository _userRepository;
   GetToolsInToolRoomUseCase(this._toolRepository, this._userRepository);
 
-  Future<Result<List<ToolModel>>> call() async {
+  Future<Result<List<Tool>>> call() async {
     try {
       List<Tool> toolRoomTools = [];
 
@@ -35,19 +34,7 @@ class GetToolsInToolRoomUseCase {
 
       toolRoomTools.sort((a, b) => a.name.compareTo(b.name));
 
-      List<ToolModel> toolModels = toolRoomTools
-          .map(
-            (tool) => ToolModel(
-              id: tool.id,
-              name: tool.name,
-              date: tool.date,
-              giver: tool.giver,
-              holder: tool.holder,
-              receiver: tool.receiver,
-            ),
-          )
-          .toList();
-      return Result.value(toolModels);
+      return Result.value(toolRoomTools);
     } catch (err) {
       return Result.error(err.toString());
     }

@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tools_manager/domain/use_cases/failure_codes.dart';
 
 import '../../../composition_root.dart';
-import '../../../data/models/user_model.dart';
+import '../../../domain/entities/user.dart';
 import '../../helpers/helpers.dart';
 import '../../states_management/current_user_cubit/current_user_cubit.dart';
 import '../../states_management/users_cubit/users_cubit.dart';
@@ -16,7 +16,8 @@ class UsersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CurrentUserCubit currentUserCubit = BlocProvider.of<CurrentUserCubit>(context);
+    CurrentUserCubit currentUserCubit =
+        BlocProvider.of<CurrentUserCubit>(context);
     UsersCubit usersCubit = BlocProvider.of<UsersCubit>(context);
     usersCubit.getInfo();
 
@@ -43,7 +44,7 @@ class UsersPage extends StatelessWidget {
               return _buildUsersList(
                 _,
                 currentUserCubit.state,
-                state.userModels,
+                state.users,
                 state.toolsInStockCounters,
                 state.transferredToolsCounters,
                 state.receivedToolsCounters,
@@ -52,12 +53,16 @@ class UsersPage extends StatelessWidget {
             if (state is UsersFailure) {
               String failureMessage = state.message;
               if (state.message == failureNoUsersFound) {
-                failureMessage = AppLocalizations.of(context)!.failureNoUsersFound;
+                failureMessage =
+                    AppLocalizations.of(context)!.failureNoUsersFound;
               }
               return Center(
                 child: Text(
                   failureMessage,
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1!
+                      .copyWith(color: Colors.white),
                 ),
               );
             }
@@ -67,31 +72,39 @@ class UsersPage extends StatelessWidget {
             if (state is UsersManageUserFailure) {
               String failureMessage = state.message;
               if (state.message == failureUsernameEmpty) {
-                failureMessage = AppLocalizations.of(context)!.failureUsernameEmpty;
+                failureMessage =
+                    AppLocalizations.of(context)!.failureUsernameEmpty;
               }
               if (state.message == failureMobileNumberEmpty) {
-                failureMessage = AppLocalizations.of(context)!.failureMobileNumberEmpty;
+                failureMessage =
+                    AppLocalizations.of(context)!.failureMobileNumberEmpty;
               }
               if (state.message == failureUsernameExists) {
-                failureMessage = AppLocalizations.of(context)!.failureUsernameExists;
+                failureMessage =
+                    AppLocalizations.of(context)!.failureUsernameExists;
               }
               if (state.message == failureMobileNumberExists) {
-                failureMessage = AppLocalizations.of(context)!.failureMobileNumberExists;
+                failureMessage =
+                    AppLocalizations.of(context)!.failureMobileNumberExists;
               }
-              _showInfoDialog(context, AppLocalizations.of(context)!.titleError, failureMessage);
+              _showInfoDialog(context, AppLocalizations.of(context)!.titleError,
+                  failureMessage);
               usersCubit.getInfo();
             }
             if (state is UsersManageUserSuccess) {
               late String successMessage;
               switch (state.message) {
                 case ManageUserSuccessInfo.userAdded:
-                  successMessage = AppLocalizations.of(context)!.infoAddUserSuccess;
+                  successMessage =
+                      AppLocalizations.of(context)!.infoAddUserSuccess;
                   break;
                 case ManageUserSuccessInfo.userUpdated:
-                  successMessage = AppLocalizations.of(context)!.infoUpdateUserSuccess;
+                  successMessage =
+                      AppLocalizations.of(context)!.infoUpdateUserSuccess;
                   break;
                 case ManageUserSuccessInfo.userDeleted:
-                  successMessage = AppLocalizations.of(context)!.infoDeleteUserSuccess;
+                  successMessage =
+                      AppLocalizations.of(context)!.infoDeleteUserSuccess;
                   break;
               }
               ScaffoldMessenger.of(context)
@@ -109,9 +122,9 @@ class UsersPage extends StatelessWidget {
                 context,
                 AppLocalizations.of(context)!.titleAdd,
                 null,
-                (UserModel addedUserModel) {
+                (User addedUser) {
                   usersCubit.addUser(
-                      addedUserModel.name, addedUserModel.mobileNumber, addedUserModel.role);
+                      addedUser.name, addedUser.mobileNumber, addedUser.role);
                 },
               );
             })
@@ -121,17 +134,17 @@ class UsersPage extends StatelessWidget {
 
   ListView _buildUsersList(
       BuildContext context,
-      UserModel currentUserModel,
-      List<UserModel> userModels,
+      User currentUser,
+      List<User> users,
       List<int> toolsInStockCounters,
       List<int> transferredToolsCounters,
       List<int> receivedToolsCounters) {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 8.0),
-      itemCount: userModels.length,
+      itemCount: users.length,
       itemBuilder: (_, index) {
         return UserListItemCard(
-          userModel: userModels[index],
+          user: users[index],
           numberOfToolsInStock: toolsInStockCounters[index],
           numberOfTransferredTools: transferredToolsCounters[index],
           numberOfReceivedTools: receivedToolsCounters[index],
@@ -140,18 +153,19 @@ class UsersPage extends StatelessWidget {
                 .push(
                   MaterialPageRoute(
                     builder: (_) => CompositionRoot.composeUserDetailsPage(
-                      userModels[index],
+                      users[index],
                       toolsInStockCounters[index],
                       transferredToolsCounters[index],
                       receivedToolsCounters[index],
                     ),
                   ),
                 )
-                .then((value) => BlocProvider.of<UsersCubit>(context).getInfo());
+                .then(
+                    (value) => BlocProvider.of<UsersCubit>(context).getInfo());
           },
-          onLongPressed: currentUserModel.role == kRoleMaster
+          onLongPressed: currentUser.role == kRoleMaster
               ? () {
-                  _showPopupMenu(context, currentUserModel.name, userModels[index]);
+                  _showPopupMenu(context, currentUser.name, users[index]);
                 }
               : null,
         );
@@ -159,7 +173,7 @@ class UsersPage extends StatelessWidget {
     );
   }
 
-  void _showPopupMenu(BuildContext context, String currentUsername, UserModel userModel) {
+  void _showPopupMenu(BuildContext context, String currentUsername, User user) {
     showMenu(
       context: context,
       position: const RelativeRect.fromLTRB(1.0, 88.0, 0.0, 0.0),
@@ -178,16 +192,16 @@ class UsersPage extends StatelessWidget {
         _showManageUserDialog(
           context,
           AppLocalizations.of(context)!.titleEdit,
-          userModel,
-          (UserModel updatedUserModel) {
-            BlocProvider.of<UsersCubit>(context).updateUser(updatedUserModel);
-            if (updatedUserModel.role == kRoleMaster) {
+          user,
+          (User updatedUser) {
+            BlocProvider.of<UsersCubit>(context).updateUser(updatedUser);
+            if (updatedUser.role == kRoleMaster) {
               BlocProvider.of<CurrentUserCubit>(context).update(
-                UserModel(
-                  id: updatedUserModel.id,
-                  name: updatedUserModel.name,
-                  mobileNumber: updatedUserModel.mobileNumber,
-                  role: updatedUserModel.role,
+                User(
+                  id: updatedUser.id,
+                  name: updatedUser.name,
+                  mobileNumber: updatedUser.mobileNumber,
+                  role: updatedUser.role,
                 ),
               );
             }
@@ -195,14 +209,14 @@ class UsersPage extends StatelessWidget {
         );
       }
       if (value == AppLocalizations.of(context)!.titleDelete) {
-        if (currentUsername != userModel.name) {
+        if (currentUsername != user.name) {
           _showDeleteDialog(
             context,
             AppLocalizations.of(context)!.titleDelete,
             AppLocalizations.of(context)!.descDeleteUser,
             () {
               BlocProvider.of<UsersCubit>(context).deleteUser(
-                userModel.id!,
+                user.id!,
                 BlocProvider.of<CurrentUserCubit>(context).state.name,
               );
             },
@@ -218,15 +232,15 @@ class UsersPage extends StatelessWidget {
   _showManageUserDialog(
     BuildContext context,
     String title,
-    UserModel? userModel,
-    Function(UserModel) onConfirmPressed,
+    User? user,
+    Function(User) onConfirmPressed,
   ) {
     return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => ManageUserDialog(
         title: title,
-        userModel: userModel,
+        user: user,
         onConfirmPressed: onConfirmPressed,
       ),
     );

@@ -13,12 +13,12 @@ class TransferToolLoading extends TransferToolState {}
 
 //==================================================================================================
 class TransferToolLoadSuccess extends TransferToolState {
-  final List<UserModel> userModels;
+  final List<User> users;
 
-  TransferToolLoadSuccess(this.userModels);
+  TransferToolLoadSuccess(this.users);
 
   @override
-  List<Object> get props => [userModels];
+  List<Object> get props => [users];
 }
 
 //==================================================================================================

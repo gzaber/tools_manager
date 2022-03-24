@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:tools_manager/data/models/user_model.dart';
+import 'package:tools_manager/domain/entities/user.dart';
 import 'package:tools_manager/domain/use_cases/user_use_cases/update_user_use_case.dart';
 import 'package:async/async.dart';
 
@@ -16,40 +16,42 @@ void main() {
 
   group('UpdateUserUseCase', () {
     test('should update a user when successful', () async {
-      UserModel userModel = UserModel(
+      User user = User(
         id: '11',
         name: 'name',
         mobileNumber: '111111111',
         role: 'role',
       );
       // act
-      var result = await sut(userModel);
+      var result = await sut(user);
       // assert
       expect(result, isA<ValueResult>());
       expect(result, isA<Result<void>>());
     });
-    test('should return an error when user with given phone number already exists', () async {
-      UserModel userModel = UserModel(
+    test(
+        'should return an error when user with given phone number already exists',
+        () async {
+      User user = User(
         id: '11',
         name: 'name',
         mobileNumber: '222222222',
         role: 'role',
       );
       // act
-      var result = await sut(userModel);
+      var result = await sut(user);
       // assert
       expect(result, isA<ErrorResult>());
       expect(result.asError, isNotNull);
     });
     test('should return an error when exception occured', () async {
-      UserModel userModel = UserModel(
+      User user = User(
         id: '11',
         name: 'user1',
         mobileNumber: 'wrongMobileNr',
         role: 'role1',
       );
       // act
-      var result = await sut(userModel);
+      var result = await sut(user);
       // assert
       expect(result, isA<ErrorResult>());
       expect(result.asError, isNotNull);

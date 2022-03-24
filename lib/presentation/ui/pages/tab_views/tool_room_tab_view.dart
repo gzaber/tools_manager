@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tools_manager/domain/use_cases/failure_codes.dart';
 import 'package:tools_manager/presentation/ui/widgets/tool_list_item_tool_room.dart';
-import '../../../../data/models/tool_model.dart';
+import '../../../../domain/entities/tool.dart';
 import '../../../helpers/helpers.dart';
 import '../../../states_management/tool_room_cubit/tool_room_cubit.dart';
 
@@ -45,19 +45,23 @@ class ToolRoomTabView extends StatelessWidget {
             );
           }
           if (state is ToolRoomLoadSuccess) {
-            return _buildToolList(state.toolModels);
+            return _buildToolList(state.tools);
           }
           if (state is ToolRoomFailure) {
             String failureMessage = state.message;
             if (state.message == failureNoToolsFound) {
-              failureMessage = AppLocalizations.of(context)!.failureNoToolsFound;
+              failureMessage =
+                  AppLocalizations.of(context)!.failureNoToolsFound;
             }
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: Text(
                   failureMessage,
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1!
+                      .copyWith(color: Colors.white),
                 ),
               ),
             );
@@ -68,14 +72,14 @@ class ToolRoomTabView extends StatelessWidget {
     );
   }
 
-  Widget _buildToolList(List<ToolModel> toolModels) {
+  Widget _buildToolList(List<Tool> tools) {
     return ListView.builder(
-      itemCount: toolModels.length,
+      itemCount: tools.length,
       itemBuilder: (_, index) {
         return Column(
           children: [
             ToolListItemToolRoom(
-              toolModel: toolModels[index],
+              tool: tools[index],
               toolsViewOption: toolsViewOption,
             ),
             const Divider(height: 2.0),

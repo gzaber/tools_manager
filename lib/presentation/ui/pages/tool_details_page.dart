@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../helpers/helpers.dart';
 import '../../states_management/current_user_cubit/current_user_cubit.dart';
 import '../../states_management/tool_details_cubit/tool_details_cubit.dart';
@@ -20,8 +20,10 @@ class ToolDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CurrentUserCubit currentUserCubit = BlocProvider.of<CurrentUserCubit>(context);
-    ToolDetailsCubit toolDetailsCubit = BlocProvider.of<ToolDetailsCubit>(context);
+    CurrentUserCubit currentUserCubit =
+        BlocProvider.of<CurrentUserCubit>(context);
+    ToolDetailsCubit toolDetailsCubit =
+        BlocProvider.of<ToolDetailsCubit>(context);
 
     toolDetailsCubit.getToolById(toolId);
 
@@ -45,8 +47,8 @@ class ToolDetailsPage extends StatelessWidget {
               );
             }
             if (state is ToolDetailsLoadSuccess) {
-              return _buildUserDetailsContent(
-                  context, toolDetailsCubit, state.toolModel, currentUserCubit.state.name);
+              return _buildUserDetailsContent(context, toolDetailsCubit,
+                  state.tool, currentUserCubit.state.name);
             }
             return const SizedBox();
           },
@@ -64,24 +66,25 @@ class ToolDetailsPage extends StatelessWidget {
     );
   }
 
-  _buildUserDetailsContent(BuildContext context, ToolDetailsCubit toolDetailsCubit,
-      ToolModel toolModel, String username) {
+  _buildUserDetailsContent(BuildContext context,
+      ToolDetailsCubit toolDetailsCubit, Tool tool, String username) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          ToolDetailsHeader(toolModel: toolModel, username: username),
+          ToolDetailsHeader(tool: tool, username: username),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: _buildButtonRow(context, toolDetailsCubit, toolModel, username),
+            child: _buildButtonRow(context, toolDetailsCubit, tool, username),
           ),
         ],
       ),
     );
   }
 
-  _buildButtonRow(BuildContext context, ToolDetailsCubit toolDetailsCubit, ToolModel toolModel,
-      String username) {
-    ToolStatusByUserOption toolStatusByUserOption = getToolStatusByUser(toolModel, username);
+  _buildButtonRow(BuildContext context, ToolDetailsCubit toolDetailsCubit,
+      Tool tool, String username) {
+    ToolStatusByUserOption toolStatusByUserOption =
+        getToolStatusByUser(tool, username);
 
     if (toolStatusByUserOption == ToolStatusByUserOption.added) {
       return Row(
@@ -93,7 +96,7 @@ class ToolDetailsPage extends StatelessWidget {
               context,
               username,
               (String receiver) {
-                toolDetailsCubit.transfer(toolModel, receiver);
+                toolDetailsCubit.transfer(tool, receiver);
                 Navigator.of(context).pop();
               },
             ),
@@ -115,7 +118,7 @@ class ToolDetailsPage extends StatelessWidget {
               AppLocalizations.of(context)!.titleReturn,
               AppLocalizations.of(context)!.descReturn,
               () {
-                toolDetailsCubit.returnTool(toolModel);
+                toolDetailsCubit.returnTool(tool);
                 Navigator.of(context).pop();
               },
             ),
@@ -127,7 +130,7 @@ class ToolDetailsPage extends StatelessWidget {
               context,
               username,
               (String receiver) {
-                toolDetailsCubit.transfer(toolModel, receiver);
+                toolDetailsCubit.transfer(tool, receiver);
                 Navigator.of(context).pop();
               },
             ),
@@ -146,7 +149,7 @@ class ToolDetailsPage extends StatelessWidget {
               AppLocalizations.of(context)!.titleConfirm,
               AppLocalizations.of(context)!.descConfirm,
               () {
-                toolDetailsCubit.confirm(toolModel);
+                toolDetailsCubit.confirm(tool);
                 Navigator.of(context).pop();
               },
             ),
@@ -168,7 +171,7 @@ class ToolDetailsPage extends StatelessWidget {
               AppLocalizations.of(context)!.cancel,
               AppLocalizations.of(context)!.descCancel,
               () {
-                toolDetailsCubit.cancel(toolModel);
+                toolDetailsCubit.cancel(tool);
                 Navigator.of(context).pop();
               },
             ),
@@ -218,10 +221,10 @@ class ToolDetailsPage extends StatelessWidget {
             );
           }
           if (state is TransferToolLoadSuccess) {
-            if (state.userModels.length > 1) {
+            if (state.users.length > 1) {
               return TransferToolDialog(
                 currentUsername: username,
-                userModels: state.userModels,
+                users: state.users,
                 onConfirmPressed: onConfirmPressed,
               );
             } else {
@@ -232,7 +235,8 @@ class ToolDetailsPage extends StatelessWidget {
           }
           if (state is TransferToolFailure) {
             return InfoDialog(
-                title: AppLocalizations.of(context)!.titleError, content: state.message);
+                title: AppLocalizations.of(context)!.titleError,
+                content: state.message);
           }
           return const SizedBox();
         },

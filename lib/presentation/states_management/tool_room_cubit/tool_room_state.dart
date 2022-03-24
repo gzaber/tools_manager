@@ -13,12 +13,12 @@ class ToolRoomLoading extends ToolRoomState {}
 
 //==================================================================================================
 class ToolRoomLoadSuccess extends ToolRoomState {
-  final List<ToolModel> toolModels;
+  final List<Tool> tools;
 
-  ToolRoomLoadSuccess(this.toolModels);
+  ToolRoomLoadSuccess(this.tools);
 
   @override
-  List<Object> get props => [toolModels];
+  List<Object> get props => [tools];
 }
 
 //==================================================================================================

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../../domain/use_cases/tool_use_cases/get_tools_by_user_use_case.dart';
 
 part 'user_details_state.dart';

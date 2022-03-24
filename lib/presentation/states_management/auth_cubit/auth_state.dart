@@ -25,12 +25,12 @@ class AuthVerificationSucces extends AuthState {
 
 //==================================================================================================
 class AuthSignInSuccess extends AuthState {
-  final UserModel userModel;
+  final User user;
 
-  const AuthSignInSuccess(this.userModel);
+  const AuthSignInSuccess(this.user);
 
   @override
-  List<Object> get props => [userModel];
+  List<Object> get props => [user];
 }
 
 //==================================================================================================

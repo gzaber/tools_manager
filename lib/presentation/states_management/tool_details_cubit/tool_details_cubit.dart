@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../../domain/use_cases/tool_use_cases/tool_use_cases.dart';
 import '../../helpers/functions.dart';
 
@@ -28,78 +28,78 @@ class ToolDetailsCubit extends Cubit<ToolDetailsState> {
   }
 
   //================================================================================================
-  returnTool(ToolModel toolModel) async {
+  returnTool(Tool tool) async {
     emit(ToolDetailsLoading());
-    ToolModel updatedToolModel = ToolModel(
-      id: toolModel.id,
-      name: toolModel.name,
+    Tool updatedTool = Tool(
+      id: tool.id,
+      name: tool.name,
       date: getCurrentDate(),
-      giver: toolModel.giver,
-      holder: toolModel.holder,
-      receiver: toolModel.giver,
+      giver: tool.giver,
+      holder: tool.holder,
+      receiver: tool.giver,
     );
-    final result = await _updateToolUseCase(updatedToolModel);
+    final result = await _updateToolUseCase(updatedTool);
     if (result.asError != null) {
       emit(ToolDetailsFailure(result.asError!.error.toString()));
     } else {
-      emit(ToolDetailsLoadSuccess(updatedToolModel));
+      emit(ToolDetailsLoadSuccess(updatedTool));
     }
   }
 
   //================================================================================================
-  confirm(ToolModel toolModel) async {
+  confirm(Tool tool) async {
     emit(ToolDetailsLoading());
-    ToolModel updatedToolModel = ToolModel(
-      id: toolModel.id,
-      name: toolModel.name,
+    Tool updatedTool = Tool(
+      id: tool.id,
+      name: tool.name,
       date: getCurrentDate(),
-      giver: toolModel.holder,
-      holder: toolModel.receiver!,
+      giver: tool.holder,
+      holder: tool.receiver!,
       receiver: null,
     );
-    final result = await _updateToolUseCase(updatedToolModel);
+    final result = await _updateToolUseCase(updatedTool);
     if (result.asError != null) {
       emit(ToolDetailsFailure(result.asError!.error.toString()));
     } else {
-      emit(ToolDetailsLoadSuccess(updatedToolModel));
+      emit(ToolDetailsLoadSuccess(updatedTool));
     }
   }
 
   //================================================================================================
-  cancel(ToolModel toolModel) async {
+  cancel(Tool tool) async {
     emit(ToolDetailsLoading());
-    ToolModel updatedToolModel = ToolModel(
-      id: toolModel.id,
-      name: toolModel.name,
+    Tool updatedTool = Tool(
+      id: tool.id,
+      name: tool.name,
       date: getCurrentDate(),
-      giver: toolModel.giver,
-      holder: toolModel.holder,
+      giver: tool.giver,
+      holder: tool.holder,
       receiver: null,
     );
-    final result = await _updateToolUseCase(updatedToolModel);
+    final result = await _updateToolUseCase(updatedTool);
     if (result.asError != null) {
       emit(ToolDetailsFailure(result.asError!.error.toString()));
     } else {
-      emit(ToolDetailsLoadSuccess(updatedToolModel));
+      emit(ToolDetailsLoadSuccess(updatedTool));
     }
   }
 
   //================================================================================================
-  transfer(ToolModel toolModel, String receiver) async {
+  transfer(Tool tool, String receiver) async {
     emit(ToolDetailsLoading());
-    ToolModel updatedToolModel = ToolModel(
-      id: toolModel.id,
-      name: toolModel.name,
+    Tool updatedTool = Tool(
+      id: tool.id,
+      name: tool.name,
       date: getCurrentDate(),
-      giver: toolModel.giver,
-      holder: toolModel.holder,
+      giver: tool.giver,
+      holder: tool.holder,
       receiver: receiver,
     );
-    final result = await _updateToolUseCase(updatedToolModel);
+    final result = await _updateToolUseCase(updatedTool);
     if (result.asError != null) {
       emit(ToolDetailsFailure(result.asError!.error.toString()));
     } else {
-      emit(ToolDetailsLoadSuccess(updatedToolModel));
+      emit(ToolDetailsLoadSuccess(updatedTool));
     }
   }
   //================================================================================================

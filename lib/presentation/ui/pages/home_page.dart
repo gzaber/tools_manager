@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../composition_root.dart';
-import '../../../data/models/user_model.dart';
+import '../../../domain/entities/user.dart';
 import '../../helpers/helpers.dart';
 import '../../states_management/current_user_cubit/current_user_cubit.dart';
 import '../../states_management/home_cubit/home_cubit.dart';
@@ -102,7 +102,7 @@ class HomePage extends StatelessWidget {
     int numberOfMasters,
     int numberOfAdmins,
     int numberOfUsers,
-    UserModel currentUser,
+    User currentUser,
   ) {
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 8.0),

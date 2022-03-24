@@ -13,12 +13,12 @@ class ToolDetailsLoading extends ToolDetailsState {}
 
 //==================================================================================================
 class ToolDetailsLoadSuccess extends ToolDetailsState {
-  final ToolModel toolModel;
+  final Tool tool;
 
-  ToolDetailsLoadSuccess(this.toolModel);
+  ToolDetailsLoadSuccess(this.tool);
 
   @override
-  List<Object> get props => [toolModel];
+  List<Object> get props => [tool];
 }
 
 //==================================================================================================

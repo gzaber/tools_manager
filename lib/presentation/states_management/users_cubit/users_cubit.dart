@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../data/models/user_model.dart';
+import '../../../domain/entities/user.dart';
 import '../../../domain/use_cases/common_use_cases/common_use_cases.dart';
 import '../../../domain/use_cases/tool_use_cases/tool_use_cases.dart';
 import '../../../domain/use_cases/user_use_cases/user_use_cases.dart';
@@ -44,23 +44,30 @@ class UsersCubit extends Cubit<UsersState> {
       List<int> receivedToolsCounters = [];
 
       for (var user in usersResult.asValue!.value) {
-        var toolsInStockCounterResult = await _countToolsInStockByUserUseCase(user.name);
+        var toolsInStockCounterResult =
+            await _countToolsInStockByUserUseCase(user.name);
         if (toolsInStockCounterResult.asError != null) {
-          emit(UsersFailure(toolsInStockCounterResult.asError!.error.toString()));
+          emit(UsersFailure(
+              toolsInStockCounterResult.asError!.error.toString()));
           return;
         }
         toolsInStockCounters.add(toolsInStockCounterResult.asValue!.value);
 
-        var transferredToolsCounterResult = await _countTransferredToolsByUserUseCase(user.name);
+        var transferredToolsCounterResult =
+            await _countTransferredToolsByUserUseCase(user.name);
         if (transferredToolsCounterResult.asError != null) {
-          emit(UsersFailure(transferredToolsCounterResult.asError!.error.toString()));
+          emit(UsersFailure(
+              transferredToolsCounterResult.asError!.error.toString()));
           return;
         }
-        transferredToolsCounters.add(transferredToolsCounterResult.asValue!.value);
+        transferredToolsCounters
+            .add(transferredToolsCounterResult.asValue!.value);
 
-        var receivedToolsCounterResult = await _countReceivedToolsByUserUseCase(user.name);
+        var receivedToolsCounterResult =
+            await _countReceivedToolsByUserUseCase(user.name);
         if (receivedToolsCounterResult.asError != null) {
-          emit(UsersFailure(receivedToolsCounterResult.asError!.error.toString()));
+          emit(UsersFailure(
+              receivedToolsCounterResult.asError!.error.toString()));
           return;
         }
         receivedToolsCounters.add(receivedToolsCounterResult.asValue!.value);
@@ -89,15 +96,16 @@ class UsersCubit extends Cubit<UsersState> {
   }
 
   //================================================================================================
-  updateUser(UserModel userModel) async {
+  updateUser(User user) async {
     emit(UsersLoading());
     final updateToolsByUserIdResult =
-        await _updateToolsByUserIdUseCase(userModel.id!, userModel.name);
+        await _updateToolsByUserIdUseCase(user.id!, user.name);
     if (updateToolsByUserIdResult.asError != null) {
-      emit(UsersManageUserFailure(updateToolsByUserIdResult.asError!.error.toString()));
+      emit(UsersManageUserFailure(
+          updateToolsByUserIdResult.asError!.error.toString()));
       return;
     }
-    final updateUserResult = await _updateUserUseCase(userModel);
+    final updateUserResult = await _updateUserUseCase(user);
     if (updateUserResult.asError != null) {
       emit(UsersManageUserFailure(updateUserResult.asError!.error.toString()));
       return;
@@ -108,9 +116,11 @@ class UsersCubit extends Cubit<UsersState> {
   //================================================================================================
   deleteUser(String id, String targetUsername) async {
     emit(UsersLoading());
-    final moveDeletedUserToolsResult = await _moveDeletedUserToolsUseCase(id, targetUsername);
+    final moveDeletedUserToolsResult =
+        await _moveDeletedUserToolsUseCase(id, targetUsername);
     if (moveDeletedUserToolsResult.asError != null) {
-      emit(UsersManageUserFailure(moveDeletedUserToolsResult.asError!.error.toString()));
+      emit(UsersManageUserFailure(
+          moveDeletedUserToolsResult.asError!.error.toString()));
       return;
     }
     final deleteUserResult = await _deleteUserUseCase(id);

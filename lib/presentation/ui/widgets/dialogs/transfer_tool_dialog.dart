@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../../data/models/user_model.dart';
+import '../../../../domain/entities/user.dart';
 import '../../../helpers/colors.dart';
 
 class TransferToolDialog extends StatefulWidget {
   final String currentUsername;
-  final List<UserModel> userModels;
+  final List<User> users;
   final Function(String receiver) onConfirmPressed;
 
   const TransferToolDialog({
     Key? key,
     required this.currentUsername,
-    required this.userModels,
+    required this.users,
     required this.onConfirmPressed,
   }) : super(key: key);
 
@@ -27,8 +27,10 @@ class _TransferToolDialogState extends State<TransferToolDialog> {
 
   @override
   void initState() {
-    _usernames = widget.userModels.map((userModel) => userModel.name).toList();
-    _availableUsers = _usernames.where((element) => element != widget.currentUsername).toList();
+    _usernames = widget.users.map((user) => user.name).toList();
+    _availableUsers = _usernames
+        .where((element) => element != widget.currentUsername)
+        .toList();
     _dropdownValue = _availableUsers[0];
     super.initState();
   }

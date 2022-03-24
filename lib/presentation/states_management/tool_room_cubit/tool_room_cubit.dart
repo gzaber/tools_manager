@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../../domain/use_cases/common_use_cases/common_use_cases.dart';
 import '../../../domain/use_cases/tool_use_cases/tool_use_cases.dart';
 

@@ -13,21 +13,25 @@ class UsersLoading extends UsersState {}
 
 //==================================================================================================
 class UsersLoadSuccess extends UsersState {
-  final List<UserModel> userModels;
+  final List<User> users;
   final List<int> toolsInStockCounters;
   final List<int> transferredToolsCounters;
   final List<int> receivedToolsCounters;
 
   UsersLoadSuccess(
-    this.userModels,
+    this.users,
     this.toolsInStockCounters,
     this.transferredToolsCounters,
     this.receivedToolsCounters,
   );
 
   @override
-  List<Object> get props =>
-      [userModels, toolsInStockCounters, transferredToolsCounters, receivedToolsCounters];
+  List<Object> get props => [
+        users,
+        toolsInStockCounters,
+        transferredToolsCounters,
+        receivedToolsCounters
+      ];
 }
 
 //==================================================================================================

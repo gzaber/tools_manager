@@ -13,12 +13,12 @@ class UserDetailsLoading extends UserDetailsState {}
 
 //==================================================================================================
 class UserDetailsLoadSuccess extends UserDetailsState {
-  final List<ToolModel> toolModels;
+  final List<Tool> tools;
 
-  UserDetailsLoadSuccess(this.toolModels);
+  UserDetailsLoadSuccess(this.tools);
 
   @override
-  List<Object> get props => [toolModels];
+  List<Object> get props => [tools];
 }
 
 //==================================================================================================

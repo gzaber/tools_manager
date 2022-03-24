@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tools_manager/data/models/user_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../../domain/entities/user.dart';
 import '../../../helpers/colors.dart';
 import '../../../helpers/constants.dart';
 import '../custom_text_field.dart';
@@ -9,22 +9,23 @@ import '../user_role_radio_list.dart';
 
 class ManageUserDialog extends StatelessWidget {
   final String title;
-  final UserModel? userModel;
-  final Function(UserModel) onConfirmPressed;
+  final User? user;
+  final Function(User) onConfirmPressed;
 
   const ManageUserDialog({
     Key? key,
     required this.title,
-    required this.userModel,
+    required this.user,
     required this.onConfirmPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String _username = userModel != null ? userModel!.name : '';
-    String _mobileNumber =
-        userModel != null ? userModel!.mobileNumber : AppLocalizations.of(context)!.countryCode;
-    String _role = userModel != null ? userModel!.role : kRoleUser;
+    String _username = user != null ? user!.name : '';
+    String _mobileNumber = user != null
+        ? user!.mobileNumber
+        : AppLocalizations.of(context)!.countryCode;
+    String _role = user != null ? user!.role : kRoleUser;
 
     return AlertDialog(
       title: Text(title),
@@ -77,13 +78,13 @@ class ManageUserDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () => onConfirmPressed(
-            userModel == null
-                ? UserModel(
+            user == null
+                ? User(
                     name: _username.trim(),
                     mobileNumber: _mobileNumber.replaceAll(' ', ''),
                     role: _role)
-                : UserModel(
-                    id: userModel!.id,
+                : User(
+                    id: user!.id,
                     name: _username.trim(),
                     mobileNumber: _mobileNumber.replaceAll(' ', ''),
                     role: _role,

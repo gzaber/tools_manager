@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tools_manager/domain/entities/user.dart' as user_entity;
 import 'package:tools_manager/domain/use_cases/auth_use_cases/check_persisted_auth_state_use_case.dart';
 
 import 'data/datasources/datasources.dart';
-import 'data/models/user_model.dart';
 import 'data/repositories/tool_repository.dart';
 import 'data/repositories/user_repository.dart';
 import 'data/services/firebase_auth/firebase_auth_service.dart';
@@ -43,12 +43,15 @@ class CompositionRoot {
 
   //================================================================================================
   static configure() async {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
     _firebaseAuth = FirebaseAuth.instance;
     _firebaseFirestore = FirebaseFirestore.instance;
     _authService = FirebaseAuthService(_firebaseAuth);
-    _userDataSource = FirestoreUserDataSource(_firebaseFirestore.collection('users'));
-    _toolDataSource = FirestoreToolDataSource(_firebaseFirestore.collection('tools'));
+    _userDataSource =
+        FirestoreUserDataSource(_firebaseFirestore.collection('users'));
+    _toolDataSource =
+        FirestoreToolDataSource(_firebaseFirestore.collection('tools'));
     _userRepository = UserRepository(_userDataSource);
     _toolRepository = ToolRepository(_toolDataSource);
   }
@@ -93,7 +96,8 @@ class CompositionRoot {
     CountAllPendingToolsUseCase _countPendingToolsUseCase =
         CountAllPendingToolsUseCase(_toolRepository);
 
-    CountUsersByRoleUseCase _countUsersByRoleUseCase = CountUsersByRoleUseCase(_userRepository);
+    CountUsersByRoleUseCase _countUsersByRoleUseCase =
+        CountUsersByRoleUseCase(_userRepository);
 
     HomeCubit _homeCubit = HomeCubit(
       _signOutUseCase,
@@ -114,7 +118,8 @@ class CompositionRoot {
 
   //================================================================================================
   static Widget composeToolboxPage() {
-    GetToolsByUserUseCase _getToolsByUserUseCase = GetToolsByUserUseCase(_toolRepository);
+    GetToolsByUserUseCase _getToolsByUserUseCase =
+        GetToolsByUserUseCase(_toolRepository);
     AddToolUseCase _addToolUseCase = AddToolUseCase(_toolRepository);
     UpdateToolUseCase _updateToolUseCase = UpdateToolUseCase(_toolRepository);
     DeleteToolUseCase _deleteToolUseCase = DeleteToolUseCase(_toolRepository);
@@ -134,15 +139,18 @@ class CompositionRoot {
 
   //==============================================================================================
   static Widget composeToolDetailsPage(String id) {
-    GetToolByIdUseCase _getToolByIdUseCase = GetToolByIdUseCase(_toolRepository);
+    GetToolByIdUseCase _getToolByIdUseCase =
+        GetToolByIdUseCase(_toolRepository);
     UpdateToolUseCase _updateToolUseCase = UpdateToolUseCase(_toolRepository);
 
     ToolDetailsCubit _toolDetailsCubit = ToolDetailsCubit(
       _getToolByIdUseCase,
       _updateToolUseCase,
     );
-    GetAllUsersUseCase _getAllUsersUseCase = GetAllUsersUseCase(_userRepository);
-    TransferToolCubit _transferToolCubit = TransferToolCubit(_getAllUsersUseCase);
+    GetAllUsersUseCase _getAllUsersUseCase =
+        GetAllUsersUseCase(_userRepository);
+    TransferToolCubit _transferToolCubit =
+        TransferToolCubit(_getAllUsersUseCase);
 
     return MultiBlocProvider(
       providers: [
@@ -176,7 +184,8 @@ class CompositionRoot {
 
   //================================================================================================
   static Widget composeUsersPage() {
-    GetAllUsersUseCase _getAllUsersUserCase = GetAllUsersUseCase(_userRepository);
+    GetAllUsersUseCase _getAllUsersUserCase =
+        GetAllUsersUseCase(_userRepository);
     CountToolsInStockByUserUseCase _countToolsInStockByUserUseCase =
         CountToolsInStockByUserUseCase(_toolRepository);
     CountTransferredToolsByUserUseCase _countTransferredToolsByUserUseCase =
@@ -210,15 +219,20 @@ class CompositionRoot {
   }
 
   //================================================================================================
-  static Widget composeUserDetailsPage(UserModel userModel, int numberOfToolsInStock,
-      int numberOfTransferredTools, int numberOfReceivedTools) {
-    GetToolsByUserUseCase _getToolsByHolderUseCase = GetToolsByUserUseCase(_toolRepository);
-    UserDetailsCubit _userDetailsCubit = UserDetailsCubit(_getToolsByHolderUseCase);
+  static Widget composeUserDetailsPage(
+      user_entity.User user,
+      int numberOfToolsInStock,
+      int numberOfTransferredTools,
+      int numberOfReceivedTools) {
+    GetToolsByUserUseCase _getToolsByHolderUseCase =
+        GetToolsByUserUseCase(_toolRepository);
+    UserDetailsCubit _userDetailsCubit =
+        UserDetailsCubit(_getToolsByHolderUseCase);
 
     return BlocProvider(
       create: (BuildContext context) => _userDetailsCubit,
       child: UserDetailsPage(
-        userModel: userModel,
+        user: user,
         numberOfToolsInStock: numberOfToolsInStock,
         numberOfTransferredTools: numberOfTransferredTools,
         numberOfReceivedTools: numberOfReceivedTools,
@@ -228,7 +242,8 @@ class CompositionRoot {
 
   //================================================================================================
   static Widget composeSearchPage() {
-    SearchToolsUseCase _searchToolsUseCase = SearchToolsUseCase(_toolRepository);
+    SearchToolsUseCase _searchToolsUseCase =
+        SearchToolsUseCase(_toolRepository);
     SearchToolsCubit _searchToolsCubit = SearchToolsCubit(_searchToolsUseCase);
 
     return BlocProvider(

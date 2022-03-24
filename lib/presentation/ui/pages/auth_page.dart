@@ -48,7 +48,10 @@ class _AuthPageState extends State<AuthPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
                   kAppTitle,
-                  style: Theme.of(context).textTheme.headline3!.copyWith(color: kOrange),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3!
+                      .copyWith(color: kOrange),
                 ),
               ),
               const SizedBox(height: 30.0),
@@ -64,11 +67,13 @@ class _AuthPageState extends State<AuthPage> {
                     _verificationId = state.verificationId;
                     _hideLoader(context);
                     _pageController.nextPage(
-                        duration: const Duration(milliseconds: 500), curve: Curves.linear);
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.linear);
                   }
                   if (state is AuthSignInSuccess) {
                     _hideLoader(context);
-                    BlocProvider.of<CurrentUserCubit>(context).update(state.userModel);
+                    BlocProvider.of<CurrentUserCubit>(context)
+                        .update(state.user);
                     Navigator.of(context)
                         .push(
                           MaterialPageRoute(
@@ -80,19 +85,24 @@ class _AuthPageState extends State<AuthPage> {
                   if (state is AuthFailure) {
                     String failureMessage = state.message;
                     if (state.message == failureMobileNumberEmpty) {
-                      failureMessage = AppLocalizations.of(context)!.failureMobileNumberEmpty;
+                      failureMessage = AppLocalizations.of(context)!
+                          .failureMobileNumberEmpty;
                     }
                     if (state.message == failureMobileNumberNotAllowed) {
-                      failureMessage = AppLocalizations.of(context)!.failureMobileNumberNotAllowed;
+                      failureMessage = AppLocalizations.of(context)!
+                          .failureMobileNumberNotAllowed;
                     }
                     _hideLoader(context);
                     _showErrorDialog(
-                        context, AppLocalizations.of(context)!.titleError, failureMessage);
+                        context,
+                        AppLocalizations.of(context)!.titleError,
+                        failureMessage);
                   }
                   if (state is AuthPersistenceFailure) {
                     String failureMessage = state.message;
                     if (state.message == failureNoUsersFound) {
-                      failureMessage = AppLocalizations.of(context)!.failureNoUsersFound;
+                      failureMessage =
+                          AppLocalizations.of(context)!.failureNoUsersFound;
                     }
                     ScaffoldMessenger.of(context)
                       ..removeCurrentSnackBar()
@@ -127,8 +137,8 @@ class _AuthPageState extends State<AuthPage> {
           CustomTextField(
             hintText: AppLocalizations.of(context)!.hintEnterMobileNumber,
             textInputType: TextInputType.phone,
-            textEditingController:
-                TextEditingController(text: AppLocalizations.of(context)!.countryCode),
+            textEditingController: TextEditingController(
+                text: AppLocalizations.of(context)!.countryCode),
             maxLength: kMobileNumberMaxLength,
             onChanged: (val) {
               _mobileNumber = val;
@@ -186,7 +196,8 @@ class _AuthPageState extends State<AuthPage> {
       ),
     );
 
-    showDialog(context: context, barrierDismissible: true, builder: (_) => alert);
+    showDialog(
+        context: context, barrierDismissible: true, builder: (_) => alert);
   }
 
   _hideLoader(BuildContext context) {

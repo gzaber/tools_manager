@@ -13,12 +13,12 @@ class SearchToolsLoading extends SearchToolsState {}
 
 //==================================================================================================
 class SearchToolsLoadSuccess extends SearchToolsState {
-  final List<ToolModel> toolModels;
+  final List<Tool> tools;
 
-  SearchToolsLoadSuccess(this.toolModels);
+  SearchToolsLoadSuccess(this.tools);
 
   @override
-  List<Object> get props => [toolModels];
+  List<Object> get props => [tools];
 }
 
 //==================================================================================================

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../helpers/helpers.dart';
 
 class ToolListItemCard extends StatelessWidget {
-  final ToolModel toolModel;
+  final Tool tool;
   final String username;
   final Function() onTap;
   final Function()? onLongPressed;
 
   const ToolListItemCard({
     Key? key,
-    required this.toolModel,
+    required this.tool,
     required this.username,
     required this.onTap,
     required this.onLongPressed,
@@ -36,13 +36,13 @@ class ToolListItemCard extends StatelessWidget {
               children: [
                 Icon(
                   Icons.build,
-                  color: getToolIconColor(toolModel, username),
+                  color: getToolIconColor(tool, username),
                   size: 20.0,
                 ),
                 const SizedBox(width: 16.0),
                 Flexible(
                   child: Text(
-                    toolModel.name,
+                    tool.name,
                     style: Theme.of(context).textTheme.subtitle1!.copyWith(
                           color: Colors.white,
                         ),

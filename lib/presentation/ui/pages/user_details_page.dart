@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../data/models/tool_model.dart';
-import '../../../data/models/user_model.dart';
+import '../../../domain/entities/tool.dart';
+import '../../../domain/entities/user.dart';
 import '../../helpers/helpers.dart';
 import '../../states_management/current_user_cubit/current_user_cubit.dart';
 import '../../states_management/user_details_cubit/user_details_cubit.dart';
 import '../widgets/widgets.dart';
 
 class UserDetailsPage extends StatelessWidget {
-  final UserModel userModel;
+  final User user;
   final int numberOfToolsInStock;
   final int numberOfTransferredTools;
   final int numberOfReceivedTools;
 
   const UserDetailsPage({
     Key? key,
-    required this.userModel,
+    required this.user,
     required this.numberOfToolsInStock,
     required this.numberOfTransferredTools,
     required this.numberOfReceivedTools,
@@ -29,7 +29,7 @@ class UserDetailsPage extends StatelessWidget {
         BlocProvider.of<CurrentUserCubit>(context);
     UserDetailsCubit userDetailsCubit =
         BlocProvider.of<UserDetailsCubit>(context);
-    userDetailsCubit.getUserTools(userModel.name);
+    userDetailsCubit.getUserTools(user.name);
 
     return Scaffold(
       appBar: CustomAppBar.show(
@@ -44,7 +44,7 @@ class UserDetailsPage extends StatelessWidget {
           child: Column(
             children: [
               UserDetailsHeader(
-                userModel: userModel,
+                user: user,
                 numberOfToolsInStock: numberOfToolsInStock,
                 numberOfTransferredTools: numberOfTransferredTools,
                 numberOfReceivedTools: numberOfReceivedTools,
@@ -60,8 +60,7 @@ class UserDetailsPage extends StatelessWidget {
                     );
                   }
                   if (state is UserDetailsLoadSuccess) {
-                    return _buildUserDetails(
-                        context, state.toolModels, userModel.name);
+                    return _buildUserDetails(context, state.tools, user.name);
                   }
                   return const SizedBox();
                 },
@@ -74,16 +73,16 @@ class UserDetailsPage extends StatelessWidget {
   }
 
   Widget _buildUserDetails(
-      BuildContext context, List<ToolModel> toolModels, String username) {
+      BuildContext context, List<Tool> tools, String username) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: List.generate(
-          toolModels.length,
+          tools.length,
           (index) => Column(
             children: [
               ToolListItemUserDetails(
-                toolModel: toolModels[index],
+                tool: tools[index],
                 username: username,
               ),
               const Divider(height: 2.0),

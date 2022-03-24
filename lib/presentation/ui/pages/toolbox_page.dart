@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tools_manager/domain/use_cases/failure_codes.dart';
 
 import '../../../composition_root.dart';
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../helpers/helpers.dart';
 import '../../states_management/current_user_cubit/current_user_cubit.dart';
 import '../../states_management/toolbox_cubit/toolbox_cubit.dart';
@@ -16,7 +16,8 @@ class ToolboxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CurrentUserCubit currentUserCubit = BlocProvider.of<CurrentUserCubit>(context);
+    CurrentUserCubit currentUserCubit =
+        BlocProvider.of<CurrentUserCubit>(context);
     ToolboxCubit toolboxCubit = BlocProvider.of<ToolboxCubit>(context);
 
     toolboxCubit.getTools(currentUserCubit.state.name);
@@ -45,20 +46,24 @@ class ToolboxPage extends StatelessWidget {
                 context,
                 currentUserCubit.state.name,
                 currentUserCubit.state.role,
-                state.toolModels,
+                state.tools,
               );
             }
             if (state is ToolboxLoadFailure) {
               String failureMessage = state.message;
               if (state.message == failureNoToolsFound) {
-                failureMessage = AppLocalizations.of(context)!.failureNoToolsFound;
+                failureMessage =
+                    AppLocalizations.of(context)!.failureNoToolsFound;
               }
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Center(
                   child: Text(
                     failureMessage,
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .copyWith(color: Colors.white),
                   ),
                 ),
               );
@@ -69,26 +74,32 @@ class ToolboxPage extends StatelessWidget {
             if (state is ToolboxManageToolFailure) {
               String failureMessage = state.message;
               if (state.message == failureToolnameEmpty) {
-                failureMessage = AppLocalizations.of(context)!.failureToolnameEmpty;
+                failureMessage =
+                    AppLocalizations.of(context)!.failureToolnameEmpty;
               }
               if (state.message == failureToolnameExists) {
-                failureMessage = AppLocalizations.of(context)!.failureToolnameExists;
+                failureMessage =
+                    AppLocalizations.of(context)!.failureToolnameExists;
               }
 
-              _showInfoDialog(context, AppLocalizations.of(context)!.titleError, failureMessage);
+              _showInfoDialog(context, AppLocalizations.of(context)!.titleError,
+                  failureMessage);
               toolboxCubit.getTools(currentUserCubit.state.name);
             }
             if (state is ToolboxManageToolSuccess) {
               late String successMessage;
               switch (state.message) {
                 case ManageToolSuccessInfo.toolAdded:
-                  successMessage = AppLocalizations.of(context)!.infoAddToolSuccess;
+                  successMessage =
+                      AppLocalizations.of(context)!.infoAddToolSuccess;
                   break;
                 case ManageToolSuccessInfo.toolUpdated:
-                  successMessage = AppLocalizations.of(context)!.infoUpdateToolSuccess;
+                  successMessage =
+                      AppLocalizations.of(context)!.infoUpdateToolSuccess;
                   break;
                 case ManageToolSuccessInfo.toolDeleted:
-                  successMessage = AppLocalizations.of(context)!.infoDeleteToolSuccess;
+                  successMessage =
+                      AppLocalizations.of(context)!.infoDeleteToolSuccess;
                   break;
               }
               ScaffoldMessenger.of(context)
@@ -107,9 +118,9 @@ class ToolboxPage extends StatelessWidget {
                 currentUserCubit.state.name,
                 AppLocalizations.of(context)!.titleAdd,
                 null,
-                (ToolModel addedToolModel) {
+                (Tool addedTool) {
                   toolboxCubit.addTool(
-                      addedToolModel.name, addedToolModel.date, addedToolModel.holder);
+                      addedTool.name, addedTool.date, addedTool.holder);
                 },
               );
             })
@@ -117,30 +128,30 @@ class ToolboxPage extends StatelessWidget {
     );
   }
 
-  ListView _buildToolList(BuildContext context, String currentUsername, String currentUserRole,
-      List<ToolModel> toolModels) {
+  ListView _buildToolList(BuildContext context, String currentUsername,
+      String currentUserRole, List<Tool> tools) {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 8.0),
-      itemCount: toolModels.length,
+      itemCount: tools.length,
       itemBuilder: (_, index) {
         return ToolListItemCard(
-          toolModel: toolModels[index],
+          tool: tools[index],
           username: currentUsername,
           onTap: () {
             Navigator.of(context)
                 .push(
                   MaterialPageRoute(
-                      builder: (_) =>
-                          CompositionRoot.composeToolDetailsPage(toolModels[index].id!)),
+                      builder: (_) => CompositionRoot.composeToolDetailsPage(
+                          tools[index].id!)),
                 )
                 .then(
-                  (value) => BlocProvider.of<ToolboxCubit>(context)
-                      .getTools(BlocProvider.of<CurrentUserCubit>(context).state.name),
+                  (value) => BlocProvider.of<ToolboxCubit>(context).getTools(
+                      BlocProvider.of<CurrentUserCubit>(context).state.name),
                 );
           },
           onLongPressed: currentUserRole != kRoleUser
               ? () {
-                  _showPopupMenu(context, currentUsername, toolModels[index]);
+                  _showPopupMenu(context, currentUsername, tools[index]);
                 }
               : null,
         );
@@ -148,7 +159,7 @@ class ToolboxPage extends StatelessWidget {
     );
   }
 
-  void _showPopupMenu(BuildContext context, String currentUsername, ToolModel toolModel) {
+  void _showPopupMenu(BuildContext context, String currentUsername, Tool tool) {
     showMenu(
       context: context,
       position: const RelativeRect.fromLTRB(1.0, 88.0, 0.0, 0.0),
@@ -168,9 +179,9 @@ class ToolboxPage extends StatelessWidget {
           context,
           currentUsername,
           AppLocalizations.of(context)!.titleEdit,
-          toolModel,
-          (ToolModel updatedToolModel) {
-            BlocProvider.of<ToolboxCubit>(context).updateTool(updatedToolModel);
+          tool,
+          (Tool updatedTool) {
+            BlocProvider.of<ToolboxCubit>(context).updateTool(updatedTool);
           },
         );
       }
@@ -180,7 +191,7 @@ class ToolboxPage extends StatelessWidget {
           AppLocalizations.of(context)!.titleDelete,
           AppLocalizations.of(context)!.descDeleteTool,
           () {
-            BlocProvider.of<ToolboxCubit>(context).deleteTool(toolModel.id!);
+            BlocProvider.of<ToolboxCubit>(context).deleteTool(tool.id!);
           },
         );
       }
@@ -191,8 +202,8 @@ class ToolboxPage extends StatelessWidget {
     BuildContext context,
     String currentUsername,
     String title,
-    ToolModel? toolModel,
-    Function(ToolModel) onConfirmPressed,
+    Tool? tool,
+    Function(Tool) onConfirmPressed,
   ) {
     return showDialog(
       context: context,
@@ -200,7 +211,7 @@ class ToolboxPage extends StatelessWidget {
       builder: (_) => ManageToolDialog(
         currentUsername: currentUsername,
         title: title,
-        toolModel: toolModel,
+        tool: tool,
         onConfirmPressed: onConfirmPressed,
       ),
     );

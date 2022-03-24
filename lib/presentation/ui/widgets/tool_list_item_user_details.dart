@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../helpers/helpers.dart';
 
 class ToolListItemUserDetails extends StatelessWidget {
-  final ToolModel toolModel;
+  final Tool tool;
   final String username;
 
   const ToolListItemUserDetails({
     Key? key,
-    required this.toolModel,
+    required this.tool,
     required this.username,
   }) : super(key: key);
 
@@ -27,13 +27,13 @@ class ToolListItemUserDetails extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.build,
-                      color: getToolIconColor(toolModel, username),
+                      color: getToolIconColor(tool, username),
                       size: 20.0,
                     ),
                     const SizedBox(width: 16.0),
                     Flexible(
                       child: Text(
-                        toolModel.name,
+                        tool.name,
                         style: Theme.of(context).textTheme.subtitle1!.copyWith(
                               color: Colors.white,
                             ),
@@ -45,14 +45,17 @@ class ToolListItemUserDetails extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10.0),
-              if (getToolStatusByUser(toolModel, username) == ToolStatusByUserOption.received ||
-                  getToolStatusByUser(toolModel, username) == ToolStatusByUserOption.transferred)
+              if (getToolStatusByUser(tool, username) ==
+                      ToolStatusByUserOption.received ||
+                  getToolStatusByUser(tool, username) ==
+                      ToolStatusByUserOption.transferred)
                 Text(
-                  getToolStatusByUser(toolModel, username) == ToolStatusByUserOption.received
-                      ? '${toolModel.holder} ->'
-                      : '-> ${toolModel.receiver}',
+                  getToolStatusByUser(tool, username) ==
+                          ToolStatusByUserOption.received
+                      ? '${tool.holder} ->'
+                      : '-> ${tool.receiver}',
                   style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                        color: getToolIconColor(toolModel, username),
+                        color: getToolIconColor(tool, username),
                       ),
                 ),
             ],

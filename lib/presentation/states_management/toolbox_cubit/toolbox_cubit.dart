@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../../domain/use_cases/tool_use_cases/tool_use_cases.dart';
 import '../../helpers/helpers.dart';
 
@@ -45,9 +45,9 @@ class ToolboxCubit extends Cubit<ToolboxState> {
   }
 
   //================================================================================================
-  updateTool(ToolModel toolModel) async {
+  updateTool(Tool tool) async {
     emit(ToolboxLoading());
-    final result = await _updateToolUseCase(toolModel);
+    final result = await _updateToolUseCase(tool);
     if (result.asError != null) {
       emit(ToolboxManageToolFailure(result.asError!.error.toString()));
     } else {

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tools_manager/domain/use_cases/failure_codes.dart';
 
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../helpers/helpers.dart';
 import '../../states_management/current_user_cubit/current_user_cubit.dart';
 import '../../states_management/search_tools_cubit/search_tools_cubit.dart';
@@ -15,8 +15,10 @@ class SearchToolsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CurrentUserCubit currentUserCubit = BlocProvider.of<CurrentUserCubit>(context);
-    SearchToolsCubit searchToolsCubit = BlocProvider.of<SearchToolsCubit>(context);
+    CurrentUserCubit currentUserCubit =
+        BlocProvider.of<CurrentUserCubit>(context);
+    SearchToolsCubit searchToolsCubit =
+        BlocProvider.of<SearchToolsCubit>(context);
 
     return Scaffold(
       appBar: CustomAppBar.show(
@@ -58,17 +60,21 @@ class SearchToolsPage extends StatelessWidget {
                     );
                   }
                   if (state is SearchToolsLoadSuccess) {
-                    return _buildToolList(context, state.toolModels);
+                    return _buildToolList(context, state.tools);
                   }
                   if (state is SearchToolsFailure) {
                     String failureMessage = state.message;
                     if (state.message == failureNoToolsFound) {
-                      failureMessage = AppLocalizations.of(context)!.failureNoToolsFound;
+                      failureMessage =
+                          AppLocalizations.of(context)!.failureNoToolsFound;
                     }
                     return Center(
                       child: Text(
                         failureMessage,
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.white),
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1!
+                            .copyWith(color: Colors.white),
                       ),
                     );
                   }
@@ -82,11 +88,11 @@ class SearchToolsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildToolList(BuildContext context, List<ToolModel> toolModels) {
+  Widget _buildToolList(BuildContext context, List<Tool> tools) {
     return ListView.builder(
       shrinkWrap: false,
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      itemCount: toolModels.length,
+      itemCount: tools.length,
       itemBuilder: (_, index) => Column(
         children: [
           ListTile(
@@ -97,8 +103,8 @@ class SearchToolsPage extends StatelessWidget {
               size: 25.0,
               color: kOrange,
             ),
-            title: Text(toolModels[index].name),
-            trailing: Text(toolModels[index].holder),
+            title: Text(tools[index].name),
+            trailing: Text(tools[index].holder),
           ),
           const Divider(height: 2.0),
         ],

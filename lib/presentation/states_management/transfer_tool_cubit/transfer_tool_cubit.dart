@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../data/models/user_model.dart';
+import '../../../domain/entities/user.dart';
 import '../../../domain/use_cases/user_use_cases/get_all_users_use_case.dart';
 
 part 'transfer_tool_state.dart';

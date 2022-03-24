@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../data/models/user_model.dart';
+import '../../../domain/entities/user.dart';
 import '../../helpers/helpers.dart';
 
 class UserDetailsHeader extends StatelessWidget {
-  final UserModel userModel;
+  final User user;
   final int numberOfToolsInStock;
   final int numberOfTransferredTools;
   final int numberOfReceivedTools;
 
   const UserDetailsHeader({
     Key? key,
-    required this.userModel,
+    required this.user,
     required this.numberOfToolsInStock,
     required this.numberOfTransferredTools,
     required this.numberOfReceivedTools,
@@ -28,7 +28,7 @@ class UserDetailsHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
-            getUserIcon(userModel.role),
+            getUserIcon(user.role),
             color: numberOfToolsInStock == 0 &&
                     numberOfTransferredTools == 0 &&
                     numberOfReceivedTools == 0
@@ -42,8 +42,11 @@ class UserDetailsHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  userModel.name,
-                  style: Theme.of(context).textTheme.headline6!.copyWith(color: Colors.white),
+                  user.name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(color: Colors.white),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
@@ -53,22 +56,37 @@ class UserDetailsHeader extends StatelessWidget {
                     numberOfReceivedTools == 0)
                   Text(
                     AppLocalizations.of(context)!.zeroTools,
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(color: kRed),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .copyWith(color: kRed),
                   ),
                 if (numberOfToolsInStock > 0)
                   Text(
-                    AppLocalizations.of(context)!.toolsInStock(numberOfToolsInStock),
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(color: kGreen),
+                    AppLocalizations.of(context)!
+                        .toolsInStock(numberOfToolsInStock),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .copyWith(color: kGreen),
                   ),
                 if (numberOfTransferredTools > 0)
                   Text(
-                    AppLocalizations.of(context)!.transferredTools(numberOfTransferredTools),
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(color: kPink),
+                    AppLocalizations.of(context)!
+                        .transferredTools(numberOfTransferredTools),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .copyWith(color: kPink),
                   ),
                 if (numberOfReceivedTools > 0)
                   Text(
-                    AppLocalizations.of(context)!.receivedTools(numberOfReceivedTools),
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(color: kYellow),
+                    AppLocalizations.of(context)!
+                        .receivedTools(numberOfReceivedTools),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .copyWith(color: kYellow),
                   ),
               ],
             ),

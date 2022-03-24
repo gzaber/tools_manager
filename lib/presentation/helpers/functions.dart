@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../data/models/tool_model.dart';
+import '../../domain/entities/tool.dart';
 import 'colors.dart';
 import 'constants.dart';
 import 'enums.dart';
 
-ToolStatusByUserOption getToolStatusByUser(ToolModel toolModel, String username) {
-  if (username == toolModel.receiver) return ToolStatusByUserOption.received;
-  if (username == toolModel.holder && toolModel.receiver == null) {
-    if (toolModel.giver == null) {
+ToolStatusByUserOption getToolStatusByUser(Tool tool, String username) {
+  if (username == tool.receiver) return ToolStatusByUserOption.received;
+  if (username == tool.holder && tool.receiver == null) {
+    if (tool.giver == null) {
       return ToolStatusByUserOption.added;
     } else {
       return ToolStatusByUserOption.given;
@@ -25,8 +25,9 @@ IconData getUserIcon(String userRole) {
   return Icons.person;
 }
 
-Color getToolIconColor(ToolModel toolModel, String username) {
-  ToolStatusByUserOption toolStatusByUserOption = getToolStatusByUser(toolModel, username);
+Color getToolIconColor(Tool tool, String username) {
+  ToolStatusByUserOption toolStatusByUserOption =
+      getToolStatusByUser(tool, username);
   if (toolStatusByUserOption == ToolStatusByUserOption.received) return kYellow;
   if (toolStatusByUserOption == ToolStatusByUserOption.transferred) {
     return kPink;

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/models/tool_model.dart';
+import '../../../domain/entities/tool.dart';
 import '../../helpers/helpers.dart';
 
 class ToolListItemToolRoom extends StatelessWidget {
-  final ToolModel toolModel;
+  final Tool tool;
   final ToolsViewOption toolsViewOption;
 
   const ToolListItemToolRoom({
     Key? key,
-    required this.toolModel,
+    required this.tool,
     required this.toolsViewOption,
   }) : super(key: key);
 
@@ -37,7 +37,7 @@ class ToolListItemToolRoom extends StatelessWidget {
                     const SizedBox(width: 16.0),
                     Flexible(
                       child: Text(
-                        toolModel.name,
+                        tool.name,
                         style: Theme.of(context).textTheme.subtitle1!.copyWith(
                               color: Colors.white,
                             ),
@@ -50,18 +50,27 @@ class ToolListItemToolRoom extends StatelessWidget {
               ),
               if (toolsViewOption == ToolsViewOption.inToolRoom)
                 Text(
-                  '<- ${toolModel.holder}',
-                  style: Theme.of(context).textTheme.subtitle2!.copyWith(color: kGreen),
+                  '<- ${tool.holder}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2!
+                      .copyWith(color: kGreen),
                 ),
               if (toolsViewOption == ToolsViewOption.atUsers)
                 Text(
-                  '-> ${toolModel.holder}',
-                  style: Theme.of(context).textTheme.subtitle2!.copyWith(color: kRed),
+                  '-> ${tool.holder}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2!
+                      .copyWith(color: kRed),
                 ),
               if (toolsViewOption == ToolsViewOption.pending)
                 Text(
-                  '${toolModel.holder} -> ${toolModel.receiver}',
-                  style: Theme.of(context).textTheme.subtitle2!.copyWith(color: kYellow),
+                  '${tool.holder} -> ${tool.receiver}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2!
+                      .copyWith(color: kYellow),
                 ),
             ],
           ),

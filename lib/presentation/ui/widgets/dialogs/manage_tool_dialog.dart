@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:tools_manager/data/models/tool_model.dart';
 import 'package:tools_manager/presentation/helpers/constants.dart';
 import 'package:tools_manager/presentation/helpers/functions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../../domain/entities/tool.dart';
 import '../../../helpers/colors.dart';
 
 class ManageToolDialog extends StatelessWidget {
   final String currentUsername;
   final String title;
-  final ToolModel? toolModel;
-  final Function(ToolModel) onConfirmPressed;
+  final Tool? tool;
+  final Function(Tool) onConfirmPressed;
 
   const ManageToolDialog({
     Key? key,
     required this.currentUsername,
     required this.title,
-    required this.toolModel,
+    required this.tool,
     required this.onConfirmPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String _toolName = toolModel != null ? toolModel!.name : '';
+    String _toolName = tool != null ? tool!.name : '';
 
     return AlertDialog(
       title: Text(title),
@@ -35,10 +35,17 @@ class ManageToolDialog extends StatelessWidget {
           fillColor: Colors.white,
           border: const OutlineInputBorder(borderSide: BorderSide.none),
           helperText: AppLocalizations.of(context)!.hintToolname,
-          helperStyle: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
+          helperStyle: Theme.of(context)
+              .textTheme
+              .caption!
+              .copyWith(color: Colors.white),
           hintText: AppLocalizations.of(context)!.hintToolname,
-          hintStyle: Theme.of(context).textTheme.subtitle1!.copyWith(color: kNavyBlue),
-          counterStyle: Theme.of(context).textTheme.caption!.copyWith(color: Colors.white),
+          hintStyle:
+              Theme.of(context).textTheme.subtitle1!.copyWith(color: kNavyBlue),
+          counterStyle: Theme.of(context)
+              .textTheme
+              .caption!
+              .copyWith(color: Colors.white),
         ),
         style: Theme.of(context).textTheme.subtitle1!.copyWith(
               color: kNavyBlue,
@@ -63,15 +70,18 @@ class ManageToolDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () => onConfirmPressed(
-            toolModel == null
-                ? ToolModel(name: _toolName.trim(), date: getCurrentDate(), holder: currentUsername)
-                : ToolModel(
-                    id: toolModel!.id,
+            tool == null
+                ? Tool(
                     name: _toolName.trim(),
-                    date: toolModel!.date,
-                    giver: toolModel!.giver,
-                    holder: toolModel!.holder,
-                    receiver: toolModel!.receiver),
+                    date: getCurrentDate(),
+                    holder: currentUsername)
+                : Tool(
+                    id: tool!.id,
+                    name: _toolName.trim(),
+                    date: tool!.date,
+                    giver: tool!.giver,
+                    holder: tool!.holder,
+                    receiver: tool!.receiver),
           ),
           child: Text(
             AppLocalizations.of(context)!.ok,
