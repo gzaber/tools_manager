@@ -1,0 +1,136 @@
+{
+    "countryCode": "+48",
+
+    "titleToolsManager": "MENEDŻER NARZĘDZI",
+    "titleMyToolbox": "MOJA NARZĘDZIÓWKA",
+    "titleToolRoom": "NARZĘDZIOWNIA",
+    "titleUsers": "UŻYTKOWNICY",
+    "titleSearch": "SZUKAJ NARZĘDZI",
+    "titleUserDetails": "DANE UŻYTKOWNIKA",
+    "titleToolDetails": "DANE NARZĘDZIA",
+    "titleAdd": "DODAJ",
+    "titleEdit": "EDYTUJ",
+    "titleDelete": "USUŃ", 
+
+    "tabAvailable": "DOSTĘPNE",
+    "tabAtUsers": "WYDANE",
+    "tabPending": "W TRAKCIE",
+
+    "ok": "OK",
+    "cancel": "ANULUJ",
+    "submit": "ZATWIERDŹ",
+
+    "descAdded": "dodano",
+    "descGivenFrom": "poprzedni właściciel:",
+    "descReceivedFrom": "otrzymano od:",
+    "descTransferredTo": "przekazano do:",
+    "descDate": "data:",
+
+    "titleReturn": "ZWRÓĆ",
+    "titleTransfer": "PRZEKAŻ",
+    "titleConfirm": "POTWIERDŹ",
+    "titleInfo": "INFO",
+    "titleError": "BŁĄD",
+    "descReturn": "Zwrócić narzędzie właścicielowi?",
+    "descConfirm": "Potwierdzić otrzymanie narzędzia?",
+    "descCancel": "Anulować przekazanie narzędzia?",
+    "descDeleteTool": "Usunąć narzędzie?",
+    "descDeleteUser": "Usunąć użytkownika?",
+    "descNotEnoughUsers": "Zbyt mało użytkowników",
+    "descDeleteYourself": "Nie możesz usunąć swojego konta",
+
+    "hintToolname": "Nazwa narzędzia",
+    "hintUsername": "Nazwa użytkownika",
+    "hintMobileNumber": "Numer telefonu komórkowego",
+    "hintSearchForTools": "Szukaj narzędzi",
+    "hintEnterMobileNumber": "Wpisz numer telefonu komórkowego",
+    "hintEnterSmsCode": "Wpisz kod SMS",
+
+    "infoAddToolSuccess": "Narzędzie zostało pomyślnie dodane",
+    "infoUpdateToolSuccess": "Narzędzie zostało pomyślnie zaktualizowane",
+    "infoDeleteToolSuccess": "Narzędzie zostało pomyślnie usunięte",
+    "infoAddUserSuccess": "Użytkownik został pomyślnie dodany",
+    "infoUpdateUserSuccess": "Użytkownik został pomyślnie zaktualizowany",
+    "infoDeleteUserSuccess": "Użytkownik został pomyślnie usunięty",
+
+    "failureToolnameEmpty": "Nazwa narzędzia nie może być pusta",
+    "failureToolnameExists": "Narzędzie o podanej nazwie już istnieje",
+    "failureNoToolsFound": "Nie znaleziono żadnych narzędzi",
+    "failureToolNotFound": "Nie znaleziono narzędzia",
+
+    "failureUsernameEmpty": "Nazwa użytkownika nie może być pusta",
+    "failureMobileNumberEmpty": "Numer telefonu nie może być pusty",
+    "failureUsernameExists": "Użytkownik o podanej nazwie już istnieje",
+    "failureMobileNumberExists": "Użytkownik o podanym numerze telefonu już istnieje",
+    "failureNoUsersFound": "Nie znaleziono żadnych użytkowników",
+    "failureUserNotFound": "Nie znaleziono użytkownika",
+    "failureMobileNumberNotAllowed": "Ten numer telefonu nie jest dozwolony",
+
+    "zeroTools": "0 narzędzi",
+    "toolsInStock": "na stanie: {value}",
+    "@toolsInStock": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "transferredTools": "przekazane: {value}",
+    "@transferredTools": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "receivedTools": "otrzymane: {value}",
+    "@receivedTools": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+
+    "toolsInToolRoom": "dostępne: {value}",
+    "@toolsInToolRoom": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "toolsAtUsers": "wydane: {value}",
+    "@toolsAtUsers": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "pendingTools": "oczekujące: {value}",
+    "@pendingTools": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+
+    "numberOfAdmins": "administratorzy: {value}",
+    "@numberOfAdmins": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "numberOfUsers": "użytkownicy: {value}",
+    "@numberOfUsers": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    }
+}

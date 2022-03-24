@@ -1,0 +1,139 @@
+{
+    "countryCode": "+48",
+
+    "titleToolsManager": "TOOLS MANAGER",
+    "titleMyToolbox": "MY TOOLBOX",
+    "titleToolRoom": "TOOL ROOM",
+    "titleUsers": "USERS",
+    "titleSearch": "SEARCH FOR TOOLS",
+    "titleUserDetails": "USER DETAILS",
+    "titleToolDetails": "TOOL DETAILS",
+    "titleAdd": "ADD",
+    "titleEdit": "EDIT",
+    "titleDelete": "DELETE", 
+
+    "tabAvailable": "AVAILABLE",
+    "tabAtUsers": "AT USERS",
+    "tabPending": "PENDING",
+
+    "ok": "OK",
+    "cancel": "CANCEL",
+    "submit": "SUBMIT",
+    
+
+    "descAdded": "added",
+    "descGivenFrom": "previous owner:",
+    "descReceivedFrom": "received from:",
+    "descTransferredTo": "transferred to:",
+    "descDate": "date:",
+
+    "titleReturn": "RETURN",
+    "titleTransfer": "TRANSFER",
+    "titleConfirm": "CONFIRM",
+    "titleInfo": "INFO",
+    "titleError": "ERROR",
+    "descReturn": "Return tool to owner?",
+    "descConfirm": "Confirm receipt of the tool?",
+    "descCancel": "Cancel tool transfer?",
+    "descDeleteTool": "Delete tool?",
+    "descDeleteUser": "Delete user?",
+    "descNotEnoughUsers": "Not enough users",
+    "descDeleteYourself": "You can't delete your account",
+
+    "hintToolname": "Tool name",
+    "hintUsername": "User name",
+    "hintMobileNumber": "Mobile phone number",
+    "hintSearchForTools": "Search for tools",
+    "hintEnterMobileNumber": "Enter mobile number",
+    "hintEnterSmsCode": "Enter SMS code",
+
+    "infoAddToolSuccess": "Tool added successfully",
+    "infoUpdateToolSuccess": "Tool updated successfully",
+    "infoDeleteToolSuccess": "Tool deleted successfully",
+    "infoAddUserSuccess": "User added successfully",
+    "infoUpdateUserSuccess": "User updated successfully",
+    "infoDeleteUserSuccess": "User deleted successfully",
+
+    "failureToolnameEmpty": "Tool name cannot be empty",
+    "failureToolnameExists": "Tool with given name already exists",
+    "failureNoToolsFound": "No tools found",
+    "failureToolNotFound": "Tool not found",
+
+    "failureUsernameEmpty": "User name cannot be empty",
+    "failureMobileNumberEmpty": "Mobile phone number cannot be empty",
+    "failureUsernameExists": "User with given name already exists",
+    "failureMobileNumberExists": "User with given mobile phone number already exists",
+    "failureNoUsersFound": "No users found",
+    "failureUserNotFound": "User not found",
+    "failureMobileNumberNotAllowed": "This mobile phone number is not allowed",
+
+
+    "zeroTools": "0 tools",
+    "toolsInStock": "in stock: {value}",
+    "@toolsInStock": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "transferredTools": "transferred: {value}",
+    "@transferredTools": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "receivedTools": "received: {value}",
+    "@receivedTools": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+
+    "toolsInToolRoom": "available: {value}",
+    "@toolsInToolRoom": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "toolsAtUsers": "issued: {value}",
+    "@toolsAtUsers": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "pendingTools": "pending: {value}",
+    "@pendingTools": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+
+    "numberOfAdmins": "administrators: {value}",
+    "@numberOfAdmins": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    },
+    "numberOfUsers": "users: {value}",
+    "@numberOfUsers": {
+        "placeholders": {
+            "value": {
+                "type": "int"
+            }
+        }
+    }
+
+}
