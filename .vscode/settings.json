@@ -1,7 +1,6 @@
 {
   "files.exclude": {
     ".dart_tool": true,
-    "ios": true,
     "web": true,
     "windows": true,
     ".metadata": true,
@@ -14,5 +13,10 @@
     "android": false,
     ".flutter-plugins": true,
     ".flutter-plugins-dependencies": true
-  }
+  },
+  "editor.formatOnSave": true,
+  "editor.rulers": [
+    100
+  ],
+  "dart.lineLength": 100
 }

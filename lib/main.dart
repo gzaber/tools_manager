@@ -9,7 +9,6 @@ import 'presentation/states_management/current_user_cubit/current_user_cubit.dar
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await CompositionRoot.configure();
 
   runApp(
