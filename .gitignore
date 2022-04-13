@@ -2,6 +2,7 @@
 /ios/
 /web/
 /windows/
+/lib/firebase_options.dart
 # Miscellaneous
 *.class
 *.log
