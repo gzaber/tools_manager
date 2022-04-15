@@ -27,7 +27,7 @@ dev_dependencies:
   test: ^1.17.12
   mockito: ^5.0.17
   build_runner: ^2.1.7
-  bloc_test: ^9.0.2
+  bloc_test: ^9.0.3
   fake_cloud_firestore: ^1.2.0
   firebase_auth_mocks: ^0.8.2
 

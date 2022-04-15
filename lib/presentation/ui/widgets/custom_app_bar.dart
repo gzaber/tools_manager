@@ -10,6 +10,7 @@ class CustomAppBar {
   }) {
     return AppBar(
       title: Text(title),
+      centerTitle: false,
       leading: IconButton(
         icon: Icon(leadingIcon),
         onPressed: onPressed,
